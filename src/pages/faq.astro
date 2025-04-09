@@ -1,0 +1,31 @@
+---
+
+// Import the FAQ markdown file
+const faqData = await import('./posts/faq.md');
+
+// Extract the frontmatter data (e.g., title, faqs)
+const { title, description, faqs } = faqData.frontmatter;
+
+console.log(faqs); // Debugging: Check if 'faqs' is received correctly
+---
+
+<div class="faq-container">
+  <h2>{title}</h2>
+  <p>{description}</p>
+  {faqs && faqs.length > 0 ? (
+    <ul>
+      {faqs.map((faq: { key: unknown; question: unknown; answer: unknown; }) => (
+        <li class="faq-item" data-key={faq.key} key={faq.key}>
+          <div class="faq-question" data-index={faq.key}>
+            {faq.question} <span>+</span>
+          </div>
+          <div class="faq-answer" id={`faq-answer-${faq.key}`}>
+            {faq.answer}
+          </div>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>No FAQs available.</p>
+  )}
+</div>
